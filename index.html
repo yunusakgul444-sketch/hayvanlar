@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Animal Voices! 🐾</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;800&family=Fredoka+One&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sky: #FFF5E0;
+    --grass: #A8E063;
+    --dirt: #F9A825;
+    --cloud: #ffffff;
+    --accent1: #FF6B6B;
+    --accent2: #4ECDC4;
+    --accent3: #FFE66D;
+    --accent4: #A29BFE;
+    --accent5: #FD79A8;
+    --text-dark: #2d3436;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Baloo 2', cursive;
+    background: var(--sky);
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  /* Animated sky background */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: linear-gradient(180deg, #a8edea 0%, #fed6e3 40%, #FFF5E0 100%);
+    z-index: -2;
+  }
+
+  /* Floating clouds */
+  .cloud {
+    position: fixed;
+    background: white;
+    border-radius: 50px;
+    opacity: 0.7;
+    z-index: -1;
+    animation: drift linear infinite;
+  }
+  .cloud::before, .cloud::after {
+    content: '';
+    position: absolute;
+    background: white;
+    border-radius: 50%;
+  }
+  .cloud:nth-child(1) { width: 120px; height: 40px; top: 8%; animation-duration: 22s; animation-delay: 0s; }
+  .cloud:nth-child(1)::before { width: 60px; height: 60px; top: -30px; left: 20px; }
+  .cloud:nth-child(1)::after { width: 45px; height: 45px; top: -20px; left: 55px; }
+  .cloud:nth-child(2) { width: 90px; height: 30px; top: 18%; animation-duration: 30s; animation-delay: -10s; }
+  .cloud:nth-child(2)::before { width: 45px; height: 45px; top: -22px; left: 15px; }
+  .cloud:nth-child(2)::after { width: 35px; height: 35px; top: -15px; left: 45px; }
+  .cloud:nth-child(3) { width: 150px; height: 50px; top: 5%; animation-duration: 38s; animation-delay: -20s; }
+  .cloud:nth-child(3)::before { width: 75px; height: 75px; top: -38px; left: 25px; }
+  .cloud:nth-child(3)::after { width: 55px; height: 55px; top: -28px; left: 75px; }
+
+  @keyframes drift {
+    from { transform: translateX(-200px); }
+    to { transform: translateX(calc(100vw + 200px)); }
+  }
+
+  /* Header */
+  header {
+    text-align: center;
+    padding: 30px 20px 10px;
+  }
+
+  .title {
+    font-family: 'Fredoka One', cursive;
+    font-size: clamp(2.5rem, 8vw, 5rem);
+    color: #fff;
+    text-shadow:
+      3px 3px 0 #FF6B6B,
+      6px 6px 0 #FFE66D,
+      9px 9px 0 rgba(0,0,0,0.1);
+    letter-spacing: 2px;
+    animation: titleBounce 1s ease-out forwards;
+  }
+
+  @keyframes titleBounce {
+    0% { transform: scale(0) rotate(-5deg); opacity: 0; }
+    60% { transform: scale(1.15) rotate(2deg); }
+    80% { transform: scale(0.95) rotate(-1deg); }
+    100% { transform: scale(1) rotate(0deg); opacity: 1; }
+  }
+
+  .subtitle {
+    font-size: clamp(1rem, 3vw, 1.4rem);
+    color: #636e72;
+    margin-top: 5px;
+  }
+
+  /* Grid */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 20px;
+    padding: 30px 24px 60px;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
+  /* Animal Card */
+  .animal-card {
+    background: white;
+    border-radius: 24px;
+    padding: 20px 16px 16px;
+    text-align: center;
+    cursor: pointer;
+    position: relative;
+    box-shadow: 0 6px 0 rgba(0,0,0,0.12), 0 10px 20px rgba(0,0,0,0.08);
+    transition: transform 0.15s, box-shadow 0.15s;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    animation: cardPop 0.5s ease-out both;
+  }
+
+  .animal-card:nth-child(1) { animation-delay: 0.05s; --card-color: #FF6B6B; }
+  .animal-card:nth-child(2) { animation-delay: 0.1s;  --card-color: #4ECDC4; }
+  .animal-card:nth-child(3) { animation-delay: 0.15s; --card-color: #FFE66D; }
+  .animal-card:nth-child(4) { animation-delay: 0.2s;  --card-color: #A29BFE; }
+  .animal-card:nth-child(5) { animation-delay: 0.25s; --card-color: #FD79A8; }
+  .animal-card:nth-child(6) { animation-delay: 0.3s;  --card-color: #55efc4; }
+  .animal-card:nth-child(7) { animation-delay: 0.35s; --card-color: #fdcb6e; }
+  .animal-card:nth-child(8) { animation-delay: 0.4s;  --card-color: #74b9ff; }
+  .animal-card:nth-child(9) { animation-delay: 0.45s; --card-color: #e17055; }
+  .animal-card:nth-child(10){ animation-delay: 0.5s;  --card-color: #00cec9; }
+  .animal-card:nth-child(11){ animation-delay: 0.55s; --card-color: #6c5ce7; }
+  .animal-card:nth-child(12){ animation-delay: 0.6s;  --card-color: #fab1a0; }
+
+  @keyframes cardPop {
+    0% { transform: scale(0.5) translateY(30px); opacity: 0; }
+    70% { transform: scale(1.08) translateY(-3px); }
+    100% { transform: scale(1) translateY(0); opacity: 1; }
+  }
+
+  .animal-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 24px;
+    background: var(--card-color);
+    opacity: 0.12;
+    transition: opacity 0.2s;
+  }
+
+  .animal-card:hover {
+    transform: translateY(-6px) scale(1.04);
+    box-shadow: 0 12px 0 rgba(0,0,0,0.12), 0 16px 30px rgba(0,0,0,0.1);
+  }
+
+  .animal-card:hover::before { opacity: 0.2; }
+
+  .animal-card:active {
+    transform: translateY(2px) scale(0.97);
+    box-shadow: 0 2px 0 rgba(0,0,0,0.12), 0 4px 10px rgba(0,0,0,0.08);
+  }
+
+  .animal-card.playing {
+    animation: wiggle 0.4s ease-in-out;
+  }
+
+  @keyframes wiggle {
+    0%,100% { transform: rotate(0deg) scale(1); }
+    20% { transform: rotate(-8deg) scale(1.08); }
+    40% { transform: rotate(8deg) scale(1.08); }
+    60% { transform: rotate(-5deg) scale(1.05); }
+    80% { transform: rotate(5deg) scale(1.05); }
+  }
+
+  .emoji {
+    font-size: 3.5rem;
+    display: block;
+    margin-bottom: 8px;
+    line-height: 1;
+    transition: transform 0.2s;
+  }
+
+  .animal-card:hover .emoji {
+    transform: scale(1.15) rotate(-5deg);
+  }
+
+  .animal-name {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.2rem;
+    color: var(--text-dark);
+    margin-bottom: 4px;
+  }
+
+  .animal-sound {
+    font-size: 0.85rem;
+    color: var(--card-color);
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    min-height: 1.2em;
+    transition: all 0.2s;
+  }
+
+  /* Sound bubble pop */
+  .sound-bubble {
+    position: fixed;
+    font-family: 'Fredoka One', cursive;
+    font-size: clamp(1.5rem, 4vw, 2.5rem);
+    color: white;
+    pointer-events: none;
+    z-index: 999;
+    text-shadow: 2px 2px 0 rgba(0,0,0,0.2);
+    animation: bubblePop 1.4s ease-out forwards;
+    white-space: nowrap;
+  }
+
+  @keyframes bubblePop {
+    0%   { transform: translate(-50%, -50%) scale(0) rotate(-10deg); opacity: 1; }
+    30%  { transform: translate(-50%, -60%) scale(1.2) rotate(5deg); opacity: 1; }
+    60%  { transform: translate(-50%, -90%) scale(1) rotate(-3deg); opacity: 1; }
+    100% { transform: translate(-50%, -150%) scale(0.8) rotate(2deg); opacity: 0; }
+  }
+
+  /* Stars burst */
+  .star {
+    position: fixed;
+    pointer-events: none;
+    z-index: 998;
+    font-size: 1.4rem;
+    animation: starBurst 1s ease-out forwards;
+  }
+
+  @keyframes starBurst {
+    0%   { transform: translate(0,0) scale(1); opacity: 1; }
+    100% { opacity: 0; }
+  }
+
+  /* Bottom grass strip */
+  footer {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    height: 28px;
+    background: #A8E063;
+    border-top: 4px solid #7dbb37;
+    z-index: 10;
+  }
+
+  footer::before {
+    content: '';
+    position: absolute;
+    top: -14px; left: 0; right: 0;
+    height: 14px;
+    background: radial-gradient(ellipse 20px 14px at center, #A8E063 100%, transparent 100%) repeat-x;
+    background-size: 28px 14px;
+  }
+
+  /* Volume indicator */
+  .volume-bar {
+    position: fixed;
+    bottom: 40px;
+    right: 20px;
+    background: white;
+    border-radius: 50px;
+    padding: 8px 14px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.12);
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #636e72;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .volume-bar.show { opacity: 1; }
+
+</style>
+</head>
+<body>
+
+<!-- Clouds -->
+<div class="cloud"></div>
+<div class="cloud"></div>
+<div class="cloud"></div>
+
+<header>
+  <h1 class="title">🐾 Animal Voices!</h1>
+  <p class="subtitle">Tap an animal to hear its sound!</p>
+</header>
+
+<div class="grid" id="grid"></div>
+
+<footer></footer>
+
+<script>
+const animals = [
+  { emoji: '🐶', name: 'Dog',     sound: 'Woof Woof!',   color: '#e17055', notes: [220, 196, 220] },
+  { emoji: '🐱', name: 'Cat',     sound: 'Meow~',        color: '#fd79a8', notes: [330, 392, 330, 294] },
+  { emoji: '🐄', name: 'Cow',     sound: 'Mooo!',        color: '#6c5ce7', notes: [110, 98, 82] },
+  { emoji: '🐸', name: 'Frog',    sound: 'Ribbit Ribbit!',color: '#00b894', notes: [200, 200, 180, 200] },
+  { emoji: '🦁', name: 'Lion',    sound: 'Rooaar!!',     color: '#FF6B6B', notes: [80, 70, 60] },
+  { emoji: '🐷', name: 'Pig',     sound: 'Oink Oink!',   color: '#fd9fbf', notes: [300, 280, 320, 280] },
+  { emoji: '🐔', name: 'Chicken', sound: 'Cluck Cluck!', color: '#fdcb6e', notes: [494, 440, 494, 523] },
+  { emoji: '🦆', name: 'Duck',    sound: 'Quack Quack!', color: '#74b9ff', notes: [370, 330, 370] },
+  { emoji: '🐘', name: 'Elephant',sound: 'Paaah!!',      color: '#a29bfe', notes: [100, 90, 80, 100] },
+  { emoji: '🐑', name: 'Sheep',   sound: 'Baaaa!',       color: '#55efc4', notes: [294, 330, 294] },
+  { emoji: '🐴', name: 'Horse',   sound: 'Neigh!',       color: '#fab1a0', notes: [440, 392, 330, 294] },
+  { emoji: '🦉', name: 'Owl',     sound: 'Hoo Hoo!',     color: '#4ECDC4', notes: [200, 180, 200, 180] },
+];
+
+// Web Audio synthesis
+let audioCtx;
+function getCtx() {
+  if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  return audioCtx;
+}
+
+function playAnimalSound(animal) {
+  const ctx = getCtx();
+  const now = ctx.currentTime;
+  const notes = animal.notes;
+
+  notes.forEach((freq, i) => {
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    const filter = ctx.createBiquadFilter();
+
+    filter.type = 'bandpass';
+    filter.frequency.value = freq * 2;
+    filter.Q.value = 3;
+
+    osc.connect(filter);
+    filter.connect(gain);
+    gain.connect(ctx.destination);
+
+    const start = now + i * 0.22;
+    const duration = 0.28;
+
+    osc.type = 'sawtooth';
+    osc.frequency.setValueAtTime(freq, start);
+
+    // Vibrato for some animals
+    if (['Cat','Sheep','Owl'].includes(animal.name)) {
+      const vib = ctx.createOscillator();
+      const vibGain = ctx.createGain();
+      vib.frequency.value = 6;
+      vibGain.gain.value = freq * 0.04;
+      vib.connect(vibGain);
+      vibGain.connect(osc.frequency);
+      vib.start(start);
+      vib.stop(start + duration);
+    }
+
+    if (animal.name === 'Lion' || animal.name === 'Elephant') {
+      osc.type = 'square';
+      osc.frequency.setValueAtTime(freq, start);
+      osc.frequency.linearRampToValueAtTime(freq * 0.6, start + duration);
+    }
+
+    gain.gain.setValueAtTime(0, start);
+    gain.gain.linearRampToValueAtTime(0.25, start + 0.04);
+    gain.gain.setValueAtTime(0.25, start + duration - 0.05);
+    gain.gain.linearRampToValueAtTime(0, start + duration);
+
+    osc.start(start);
+    osc.stop(start + duration + 0.05);
+  });
+}
+
+// Confetti burst
+const confetti = ['⭐','✨','🌟','💫','❤️','🎉'];
+function burst(x, y, color) {
+  for (let i = 0; i < 7; i++) {
+    const el = document.createElement('div');
+    el.className = 'star';
+    el.textContent = confetti[Math.floor(Math.random() * confetti.length)];
+    const angle = (Math.PI * 2 * i / 7) + Math.random() * 0.5;
+    const dist = 60 + Math.random() * 60;
+    el.style.left = x + 'px';
+    el.style.top  = y + 'px';
+    el.style.animationDuration = (0.7 + Math.random() * 0.5) + 's';
+    el.style.setProperty('--tx', Math.cos(angle) * dist + 'px');
+    el.style.setProperty('--ty', Math.sin(angle) * dist + 'px');
+    el.style.animation = `starBurst ${el.style.animationDuration} ease-out forwards`;
+    el.style.transform = `translate(${Math.cos(angle)*dist}px, ${Math.sin(angle)*dist}px)`;
+    document.body.appendChild(el);
+    setTimeout(() => el.remove(), 1200);
+  }
+}
+
+// Sound bubble
+function showBubble(x, y, text, color) {
+  const el = document.createElement('div');
+  el.className = 'sound-bubble';
+  el.textContent = text;
+  el.style.left = x + 'px';
+  el.style.top  = y + 'px';
+  el.style.color = color;
+  document.body.appendChild(el);
+  setTimeout(() => el.remove(), 1400);
+}
+
+// Render
+const grid = document.getElementById('grid');
+animals.forEach(animal => {
+  const card = document.createElement('div');
+  card.className = 'animal-card';
+  card.style.setProperty('--card-color', animal.color);
+  card.innerHTML = `
+    <span class="emoji">${animal.emoji}</span>
+    <div class="animal-name">${animal.name}</div>
+    <div class="animal-sound">${animal.sound}</div>
+  `;
+
+  card.addEventListener('click', e => {
+    playAnimalSound(animal);
+
+    // wiggle
+    card.classList.remove('playing');
+    void card.offsetWidth; // reflow
+    card.classList.add('playing');
+    card.addEventListener('animationend', () => card.classList.remove('playing'), { once: true });
+
+    // visual effects
+    const rect = card.getBoundingClientRect();
+    const cx = rect.left + rect.width / 2;
+    const cy = rect.top + rect.height / 2;
+    showBubble(cx, cy, animal.sound, animal.color);
+    burst(cx, cy, animal.color);
+  });
+
+  grid.appendChild(card);
+});
+</script>
+</body>
+</html>
